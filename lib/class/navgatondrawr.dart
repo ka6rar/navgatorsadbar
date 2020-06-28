@@ -12,26 +12,47 @@ class _NavigatorDrawerState extends State<NavigatorDrawer> with SingleTickerProv
   @override
  
   double maxWidth = 250 ;
-  double minwdth = 75;
+  double minwdth = 65;
   bool  isCollapsed = false ;
 
-  AnimatedContainer _animatedContainer ;
+  
+  AnimationController _animatedContainer ;
   Animation<double> widtAnimation ;
   
+ @override
+void initState() { 
+  super.initState();
+  _animatedContainer = AnimationController(vsync: this , duration: Duration(milliseconds: 1000));
+  widtAnimation  = Tween<double> (begin: maxWidth , end: minwdth).animate(_animatedContainer);
+}
+
+
   Widget build(BuildContext context) {
-    return Container(
-      width: 250,
+    return AnimatedBuilder( 
+      animation: _animatedContainer,
+      builder: (context , index) {
+        return getwidget(context , widget);
+
+      },
+    );
+  }
+
+
+  Widget getwidget(context , widget) {
+    return  Container(
+       width: widtAnimation.value ,
       color: Colors.black,
         child: Column(
           children: <Widget>[
-            // SizedBox(height: 20,),
+           SizedBox(height: 30,),
             Expanded (
               child: ListView.builder(
-                padding: EdgeInsets.only(top: 40),
+                // padding: EdgeInsets.only(top: 40),
               itemBuilder:  (context ,index )  {
                 return CollapsingListTile(
                   icon:  navigaticonItems[index].icon,
                   title: navigaticonItems[index].title,
+                 animatedContainer: _animatedContainer,
                 );
               } ,
               itemCount: navigaticonItems.length,
@@ -41,9 +62,10 @@ class _NavigatorDrawerState extends State<NavigatorDrawer> with SingleTickerProv
              onTap: (){
                 setState(() {
                   isCollapsed =! isCollapsed ;
+                  isCollapsed ? _animatedContainer.forward() : _animatedContainer.reverse();
                   });
              } ,
-
+             child: Icon(Icons.arrow_back ,color: Colors.white,),
           
             )
           ],
