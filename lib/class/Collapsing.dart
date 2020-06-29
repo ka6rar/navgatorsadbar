@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 
+// ignore: must_be_immutable
 class CollapsingListTile extends StatefulWidget {
 final String title;
 final IconData icon ;
@@ -14,20 +15,26 @@ CollapsingListTile({this.title , this.icon , this.animatedContainer});
 
 class _CollapsingListTileState extends State<CollapsingListTile> {
 
-  Animation<double> _widthAnmation;
+  Animation<double> _widthAnmation  , sizedBoxAnimation ;
   @override
   void initState() { 
     super.initState();
-    _widthAnmation = Tween<double> (begin: 250 , end: 65).animate(widget.animatedContainer);
+    _widthAnmation = Tween<double> (begin: 230 , end: 55).animate(widget.animatedContainer);
+    sizedBoxAnimation = Tween<double> (begin: 10 , end: 0).animate(widget.animatedContainer);
   }
   @override
   Widget build(BuildContext context) {
     return Container(
-      // padding: EdgeInsets.only(top: ),
+       padding: EdgeInsets.only(left: 10),
       width: _widthAnmation.value,
       child: Row(
+        crossAxisAlignment:  CrossAxisAlignment.center,
         children: <Widget>[
-          Icon(widget.icon , color: Colors.white),
+          SizedBox(height: 50,),
+          Icon(
+            widget.icon , color: Colors.white  ,
+            size: 35,
+          ),
           SizedBox(width: 10,),
           (_widthAnmation.value >= 220 ) ? 
           Text(widget.title , style: TextStyle(color: Colors.white , fontSize: 20),)

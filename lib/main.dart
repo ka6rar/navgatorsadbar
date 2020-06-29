@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomePage(),
@@ -26,8 +26,18 @@ class HomePage extends  StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           title: Text('Navigator Drawer'),
+          // backgroundColor: dra,
+          elevation: 0,
         ),
-        drawer: NavigatorDrawer(),
+        body: Stack(
+          children: <Widget>[
+            Container(color: Colors.redAccent , 
+            ),
+              NavigatorDrawer(),
+
+           
+          ],
+        ),
       );
   } 
 }

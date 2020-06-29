@@ -9,10 +9,8 @@ class NavigatorDrawer extends StatefulWidget {
 }
 
 class _NavigatorDrawerState extends State<NavigatorDrawer> with SingleTickerProviderStateMixin  {
-  @override
- 
-  double maxWidth = 250 ;
-  double minwdth = 65;
+  double maxWidth = 230 ;
+  double minwdth = 55;
   bool  isCollapsed = false ;
 
   
@@ -22,7 +20,7 @@ class _NavigatorDrawerState extends State<NavigatorDrawer> with SingleTickerProv
  @override
 void initState() { 
   super.initState();
-  _animatedContainer = AnimationController(vsync: this , duration: Duration(milliseconds: 1000));
+  _animatedContainer = AnimationController(vsync: this , duration: Duration(milliseconds: 200));
   widtAnimation  = Tween<double> (begin: maxWidth , end: minwdth).animate(_animatedContainer);
 }
 
@@ -41,13 +39,15 @@ void initState() {
   Widget getwidget(context , widget) {
     return  Container(
        width: widtAnimation.value ,
-      color: Colors.black,
+      color: Colors.blueGrey,
         child: Column(
           children: <Widget>[
            SizedBox(height: 30,),
             Expanded (
-              child: ListView.builder(
-                // padding: EdgeInsets.only(top: 40),
+              child: ListView.separated(
+                separatorBuilder:  (context, index){
+                  return Divider(color: Colors.grey, height: 20,);
+                },
               itemBuilder:  (context ,index )  {
                 return CollapsingListTile(
                   icon:  navigaticonItems[index].icon,
@@ -65,8 +65,12 @@ void initState() {
                   isCollapsed ? _animatedContainer.forward() : _animatedContainer.reverse();
                   });
              } ,
-             child: Icon(Icons.arrow_back ,color: Colors.white,),
-          
+             child: AnimatedIcon(
+               icon: AnimatedIcons.close_menu ,
+                progress: _animatedContainer ,
+                color: Colors.white60 ,
+                size: 35,
+                )
             )
           ],
         ),
